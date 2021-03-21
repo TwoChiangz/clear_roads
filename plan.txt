@@ -1,0 +1,20 @@
+Mapbox operate similar to snapmap
+on click location of map 
+pick up location and call for weather
+weather info used to track snow and rain 
+cleared road considered if road is dry 
+
+weather info
+take recent snowfall/rainfall
+take temp in last few days 
+if temp caused snow and rain to dry by current date 
+then cleared
+if not it is uncleared
+
+first step would just be current weather
+precipitation < 20 % is cleared 
+
+api for styles
+mapbox://styles/twochiangz/ckmjowug315kr17mohsydfdr0
+
+<link href='https://api.mapbox.com/mapbox-gl-js/v2.1.1/mapbox-gl.css' rel='stylesheet' />

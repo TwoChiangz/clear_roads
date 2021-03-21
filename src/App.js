@@ -1,22 +1,29 @@
-import logo from './logo.svg';
+import React, { useState } from 'react';
+import ReactMapGL from 'react-map-gl';
+
 import './App.css';
 
 function App() {
+  const [viewport, setViewport] = useState({
+    width: 1200,
+    height: 700,
+    latitude: 39.7392,
+    longitude: -104.9903,
+    zoom: 10
+  });
   return (
     <div className="App">
       <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
+        <h1>
+          Clear Roads
+        </h1>
+        <p>Click on the map to see if the roads are cleared in the area</p>
+        <ReactMapGL
+          {...viewport}
+          mapboxApiAccessToken={process.env.REACT_APP_MAPBOX_TOKEN}
+          mapStyle="mapbox://styles/twochiangz/ckmjowug315kr17mohsydfdr0"
+          onViewportChange={nextViewport => setViewport(nextViewport)}
+        ></ReactMapGL>
       </header>
     </div>
   );
