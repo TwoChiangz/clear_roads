@@ -11,6 +11,11 @@ function App() {
     longitude: -104.9903,
     zoom: 10
   });
+
+  function _onClickMap(evt){
+    console.log(evt.lngLat);
+  }
+
   return (
     <div className="App">
       <header className="App-header">
@@ -23,6 +28,7 @@ function App() {
           mapboxApiAccessToken={process.env.REACT_APP_MAPBOX_TOKEN}
           mapStyle={process.env.REACT_APP_MAPSTYLE}
           onViewportChange={nextViewport => setViewport(nextViewport)}
+          onClick={evt => _onClickMap(evt)}
         ></ReactMapGL>
       </header>
     </div>
