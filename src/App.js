@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import ReactMapGL from 'react-map-gl';
+import ReactMapGL, {Popup} from 'react-map-gl';
 
 import './App.css';
 
@@ -12,12 +12,42 @@ function App() {
     zoom: 10
   });
 
-  function _onClickMap(evt){
-    console.log(evt.lngLat);
-  }
+  const [weather, setWeather] = useState({
+    main: undefined,
+    fahrenheit: undefined,
+    description: "",
+    error: false
+  });
 
+  const calFahrenheit = (temp) => {
+    let fah = Math.floor((temp - 273.15) * (9/5)) + 32
+    return fah;
+  };
+
+  const getWeather = async (e) => {
+    console.log(e.lngLat);
+    const lon = e.lngLat[0];
+    const lat = e.lngLat[1];
+    
+    const api_call = await fetch(
+      `http://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${process.env.REACT_APP_OPENWEATHER_API_KEY}`
+    );
+  
+    const response = await api_call.json();
+    console.log(response);
+    setWeather({
+      main: response.weather[0].main,
+      fahrenheit: calFahrenheit(response.main.temp),
+      description: response.weather[0].description,
+      error: false
+    });
+    console.log(weather);
+  };
+
+
+  
   return (
-    <div className="App">
+    <div className="App" id='root'>
       <header className="App-header">
         <h1>
           Clear Roads
@@ -28,8 +58,9 @@ function App() {
           mapboxApiAccessToken={process.env.REACT_APP_MAPBOX_TOKEN}
           mapStyle={process.env.REACT_APP_MAPSTYLE}
           onViewportChange={nextViewport => setViewport(nextViewport)}
-          onClick={evt => _onClickMap(evt)}
-        ></ReactMapGL>
+          onClick={getWeather}
+        >
+        </ReactMapGL>
       </header>
     </div>
   );
